@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2025 Bhavik Mehta. All rights reserved.
+Copyright (c) 2022 Kevin Buzzard. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Bhavik Mehta, Kevin Buzzard
+Author : Kevin Buzzard
 -/
 import Mathlib.Tactic -- imports all the Lean tactics
 
@@ -17,7 +17,7 @@ We learn about how to manipulate `P ∧ Q` in Lean.
 You'll need to know about the tactics from the previous sheets,
 and also the following tactics:
 
-* `cases`
+* `cases'`
 * `constructor`
 
 -/
@@ -28,42 +28,72 @@ variable (P Q R : Prop)
 example : P ∧ Q → P := by
   intro h
   cases h with
-  | intro left right => exact left
+ | intro hP hQ =>
+  exact hP
   done
 
 example : P ∧ Q → Q := by
-  sorry
+  intro h
+  cases h with
+  | intro hP hQ =>
+  exact hQ
   done
 
 example : (P → Q → R) → P ∧ Q → R := by
-  sorry
+  intros h1 h2
+  cases h2 with
+  | intro hP hQ =>
+  apply h1 at hP
+  apply hP at hQ
+  exact hQ
   done
 
 example : P → Q → P ∧ Q := by
-  intro hP hQ
-  constructor <;> assumption
-  -- · assumption
-  -- · assumption
+  intros hP hQ
+  constructor
+  . apply hP
+  . apply hQ
   done
 
 /-- `∧` is symmetric -/
 example : P ∧ Q → Q ∧ P := by
-  sorry
+  intro h
+  cases h with
+ | intro hP hQ =>
+  constructor
+  . apply hQ
+  . apply hP
   done
 
 example : P → P ∧ True := by
-  sorry
+  intro h
+  constructor
+  . apply h
+  . triv
   done
 
 example : False → P ∧ False := by
-  sorry
+  intro h
+  exfalso
+  exact h
   done
 
 /-- `∧` is transitive -/
 example : P ∧ Q → Q ∧ R → P ∧ R := by
-  sorry
+  intros h1 h2
+  cases h1 with
+ | intro hP hQ =>
+  cases h2 with
+ | intro hQ2 hR =>
+  constructor
+  . exact hP
+  . exact hR
   done
 
 example : (P ∧ Q → R) → P → Q → R := by
-  sorry
+  intros h hP hQ
+  apply h
+  constructor
+  . apply hP
+  . exact hQ
   done

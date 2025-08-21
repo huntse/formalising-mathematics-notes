@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2025 Bhavik Mehta. All rights reserved.
+Copyright (c) 2022 Kevin Buzzard. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Bhavik Mehta, Kevin Buzzard
+Author : Kevin Buzzard
 -/
 import Mathlib.Tactic -- imports all of the tactics in Lean's maths library
 
@@ -42,8 +42,8 @@ following three tactics:
 * `exact`
 * `apply`
 
-You can read the descriptions of these tactics in Part 2 of the online course
-notes here https://b-mehta.github.io/formalising-mathematics-notes/
+You can read the descriptions of these tactics in Part C of the online course
+notes here https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/Part_C/tactics/tactics.html
 In this course we'll be learning about 30 tactics in total; the goal of this
 first logic section is to get you up to speed with ten very basic ones.
 
@@ -86,7 +86,8 @@ example (hQ : Q) : P → Q := by
   done
 
 -- Assume `P → Q` and `P` is true. Deduce `Q`.
-example (h : P → Q) (hP : P) : Q := by
+example (h : P → Q) (hP : P) : Q :=
+  by
   -- `hP` says that `P` is true, and `h` says that `P` implies `Q`, so `apply h at hP` will change
   -- `hP` to a proof of `Q`.
   apply h at hP
@@ -97,11 +98,11 @@ example (h : P → Q) (hP : P) : Q := by
 -- The `apply` tactic always needs a hypothesis of the form `P → Q`. But instead of applying
 -- it to a hypothesis `h : P` (which changes the hypothesis to a proof of `Q`), you can instead
 -- just use a bare `apply h` and it will apply it to the *goal*, changing it from `Q` to `P`.
--- Here we are "arguing backwards" -- if we know that P implies Q, then to prove Q it suffices to
--- prove P.
+-- Here we are "arguing backwards" -- if we know that P implies Q, then to prove Q it suffices to prove P.
 
 -- Assume `P → Q` and `P` is true. Deduce `Q`.
-example (h : P → Q) (hP : P) : Q := by
+example (h : P → Q) (hP : P) : Q :=
+  by
   -- `h` says that `P` implies `Q`, so to prove `Q` (our goal) it suffices to prove `P`.
   apply h
   -- Our goal is now `⊢ P`.
@@ -118,8 +119,7 @@ Delete the `sorry`s and replace them with tactic proofs using `intro`,
 -/
 /-- Every proposition implies itself. -/
 example : P → P := by
-  intro h
-  exact h
+  exact
   done
 
 /-
@@ -138,26 +138,37 @@ So the next level is asking you prove that `P → (Q → P)`.
 
 -/
 example : P → Q → P := by
-  intro hP hQ
-  exact hP
+  intros hP hQ
+  apply hP
+  apply hQ
+  exact
   done
 
 /-- If we know `P`, and we also know `P → Q`, we can deduce `Q`.
 This is called "Modus Ponens" by logicians. -/
 example : P → (P → Q) → Q := by
-  sorry
+  intros hP hPQ
+  apply hPQ
+  apply hP
   done
 
 /-- `→` is transitive. That is, if `P → Q` and `Q → R` are true, then
   so is `P → R`. -/
 example : (P → Q) → (Q → R) → P → R := by
-  sorry
+  intros h1 h2 h3
+  apply h2
+  apply h1
+  exact h3
   done
 
 -- If `h : P → Q → R` with goal `⊢ R` and you `apply h`, you'll get
 -- two goals! Note that tactics operate on only the first goal.
 example : (P → Q → R) → (P → Q) → P → R := by
-  sorry
+  intros h1 h2 h3
+  apply h1
+  exact h3
+  apply h2
+  exact h3
   done
 
 /-
@@ -172,14 +183,24 @@ in this section, where you'll learn some more tactics.
 variable (S T : Prop)
 
 example : (P → R) → (S → Q) → (R → T) → (Q → R) → S → T := by
-  sorry
+  intros h1 h2 h3 h4 h5
+  apply h3
+  apply h4
+  apply h2
+  exact h5
   done
 
 example : (P → Q) → ((P → Q) → P) → Q := by
-  sorry
+  intros h1 h2
+  apply h1
+  apply h2
+  exact h1
   done
 
 example : ((P → Q) → R) → ((Q → R) → P) → ((R → P) → Q) → P := by
+  intros h1 h2 h3
+  apply h2
+  intro h4
   sorry
   done
 

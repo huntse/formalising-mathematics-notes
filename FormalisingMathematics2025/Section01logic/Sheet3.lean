@@ -1,7 +1,7 @@
 /-
-Copyright (c) 2025 Bhavik Mehta. All rights reserved.
+Copyright (c) 2022 Kevin Buzzard. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Bhavik Mehta, Kevin Buzzard
+Author : Kevin Buzzard
 -/
 import Mathlib.Tactic -- import all the tactics
 
@@ -13,10 +13,10 @@ We learn about how to manipulate `¬ P` in Lean.
 
 # The definition of `¬ P`
 
-In Lean, `¬ P` is *defined* to mean `P → False`. So `¬ P` and `P → false`
+In Lean, `¬ P` is *defined* to mean `P → false`. So `¬ P` and `P → false`
 are *definitionally equal*. Check out the explanation of definitional
-equality in the "equality" section of Part 1 of the course notes:
-https://b-mehta.github.io/formalising-mathematics-notes/
+equality in the "equality" section of Part B of the course notes:
+https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/Part_B/equality.html
 
 ## Tactics
 
@@ -29,49 +29,79 @@ and the following tactics may also be useful:
 
 -/
 
+
 -- Throughout this sheet, `P`, `Q` and `R` will denote propositions.
 variable (P Q R : Prop)
 
 example : ¬True → False := by
-  sorry
-  done
+  by_cases hP : True
+  by_contra hC
+  apply hC
+  apply hP
+  by_contra hC
+  apply hP
+  triv
+
 
 example : False → ¬True := by
-  sorry
+  intro h1
+  exfalso
+  exact h1
   done
 
 example : ¬False → True := by
-  sorry
+  intro
+  triv
   done
 
 example : True → ¬False := by
-  sorry
+  intro h1
+  by_contra hC
+  apply hC
   done
 
 example : False → ¬P := by
-  sorry
+  intro h1
+  by_contra
+  exact h1
   done
 
-example : P → ¬P → False := by
-  sorry
-  done
+example: P → ¬P → False := by
+  intros hP hNP
+  apply hNP
+  exact hP
 
 example : P → ¬¬P := by
-  sorry
+  intros hP hnnP
+  apply hnnP
+  apply hP
   done
 
 example : (P → Q) → ¬Q → ¬P := by
-  sorry
-  done
+  intros h1 h2 h3
+  apply h2
+  apply h1 at h3
+  exact h3
 
 example : ¬¬False → False := by
-  sorry
+  by_cases hP : False
+  by_contra
+  apply hP
+  intro h2
+  apply h2
+  apply hP
   done
 
 example : ¬¬P → P := by
-  sorry
-  done
+  intro hP
+  by_contra hC
+  apply hP
+  exact hC
 
 example : (¬Q → ¬P) → P → Q := by
-  sorry
-  done
+  intros h1 h2
+  change (Q→False) → (P → False) at h1
+  by_contra hnQ
+  apply h1 at hnQ
+  apply hnQ at h2
+  exact h2
