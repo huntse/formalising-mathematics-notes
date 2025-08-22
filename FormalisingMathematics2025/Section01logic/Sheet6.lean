@@ -33,13 +33,16 @@ example : P → P ∨ Q := by
   done
 
 example : Q → P ∨ Q := by
-  sorry
+  intro h
+  right
+  exact h
   done
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
   intro hPoQ
   cases hPoQ with
-  | inl h => sorry
+  | inl h =>
+    intro hp
   | inr h => sorry
   done
 

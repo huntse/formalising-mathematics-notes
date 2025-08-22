@@ -25,41 +25,71 @@ and also the following two new tactics:
 variable (P Q R S : Prop)
 
 example : P ↔ P := by
-  sorry
+  rfl
   done
 
 example : (P ↔ Q) → (Q ↔ P) := by
-  sorry
+  intro h
+  rw [h]
   done
 
 example : (P ↔ Q) ↔ (Q ↔ P) := by
-  sorry
-  done
+  constructor <;>
+  . intro h
+    rw [h]
 
 example : (P ↔ Q) → (Q ↔ R) → (P ↔ R) := by
-  sorry
-  done
+ intro h1 h2
+ rwa [h1]
 
 example : P ∧ Q ↔ Q ∧ P := by
-  sorry
+  constructor <;>
+  . intro h
+    rwa [and_comm]
   done
 
 example : (P ∧ Q) ∧ R ↔ P ∧ Q ∧ R := by
-  sorry
+  constructor
+  intro h
+  rw [and_assoc] at h
+  exact h
+  intro h2
+  rw [and_assoc]
+  exact h2
   done
 
 example : P ↔ P ∧ True := by
-  sorry
+  constructor
+  intro h
+  constructor
+  exact h
+  trivial
+  intro h2
+  cases h2 with
+  | intro hP
+  exact hP
   done
 
+/- I don't currently understand this at all -/
 example : False ↔ P ∧ False := by
-  sorry
+  constructor
+  · rintro ⟨⟩
+  · rintro ⟨-, ⟨⟩⟩
   done
 
 example : (P ↔ Q) → (R ↔ S) → (P ∧ R ↔ Q ∧ S) := by
-  sorry
+  intros h1 h2
+  rw [h1,h2]
   done
 
 example : ¬(P ↔ ¬P) := by
-  sorry
+  intro h1
+  have hnP : ¬P := by
+    cases h1 with
+    | intro hP hnP =>
+      intro h3
+      apply hP <;> assumption
+  apply hnP
+  rw [h1]
+  exact hnP
   done
