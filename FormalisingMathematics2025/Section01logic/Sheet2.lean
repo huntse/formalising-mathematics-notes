@@ -28,12 +28,12 @@ if you can understand what's going on.
 variable (P Q R : Prop)
 
 example : True := by
-  triv
+  trivial
   done
 
 example : True → True := by
   intro
-  triv
+  trivial
   done
 
 example : False → True := by
@@ -50,7 +50,7 @@ example : False → False := by
 example : (True → False) → False := by
   intro h1
   apply h1
-  triv
+  trivial
   done
 
 example : False → P := by
@@ -81,5 +81,5 @@ example : (True → False) → P := by
   intro h1
   exfalso
   apply h1
-  triv
+  trivial
   done
