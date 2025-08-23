@@ -39,40 +39,139 @@ example : Q → P ∨ Q := by
   done
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
-  intro hPoQ
+  intros hPoQ hP hQ
   cases hPoQ with
-  | inl h =>
-    intro hp
-  | inr h => sorry
+  | inl hP1 =>
+    apply hP
+    exact hP1
+  | inr hQ1 =>
+    apply hQ
+    exact hQ1
   done
 
 -- symmetry of `or`
 example : P ∨ Q → Q ∨ P := by
-  sorry
+  intro hPoQ
+  cases hPoQ with
+  | inl hP =>
+    right
+    exact hP
+  | inr hQ =>
+    left
+    exact hQ
   done
 
 -- associativity of `or`
 example : (P ∨ Q) ∨ R ↔ P ∨ Q ∨ R := by
-  sorry
+  constructor
+  . intro h1
+    cases h1 with
+    | inl hPoQ =>
+      cases hPoQ with
+      | inl hP =>
+        left
+        exact hP
+      | inr hQ =>
+        right
+        left
+        exact hQ
+    | inr hR =>
+      right
+      right
+      exact hR
+  . intro h2
+    cases h2 with
+    | inl hP =>
+      left
+      left
+      exact hP
+    | inr hQoR =>
+      cases hQoR with
+      | inl hQ =>
+        left
+        right
+        exact hQ
+      | inr hR =>
+        right
+        exact hR
   done
 
 example : (P → R) → (Q → S) → P ∨ Q → R ∨ S := by
-  sorry
+  intros hPR hQS hPoQ
+  cases hPoQ with
+  | inl hP =>
+    left
+    apply hPR
+    exact hP
+
+  | inr hQ =>
+    right
+    apply hQS
+    exact hQ
   done
 
 example : (P → Q) → P ∨ R → Q ∨ R := by
-  sorry
+  intros hPQ hPoR
+  cases hPoR with
+  | inl hP =>
+  left
+  apply hPQ
+  exact hP
+  | inr hR =>
+  right
+  exact hR
   done
 
 example : (P ↔ R) → (Q ↔ S) → (P ∨ Q ↔ R ∨ S) := by
-  sorry
+  intros hPR hQS
+  rw [hPR,hQS]
   done
 
 -- de Morgan's laws
 example : ¬(P ∨ Q) ↔ ¬P ∧ ¬Q := by
-  sorry
+  constructor
+  . intro h1
+    constructor
+    . intro hP
+      apply h1
+      left
+      exact hP
+    . intro hQ
+      apply h1
+      right
+      exact hQ
+  . intro h2
+    cases h2 with
+    | intro hl hr =>
+      intro hPoQ
+      cases hPoQ with
+      | inl hP =>
+        apply hl
+        exact hP
+      | inr hQ =>
+        apply hr
+        exact hQ
   done
 
 example : ¬(P ∧ Q) ↔ ¬P ∨ ¬Q := by
-  sorry
-  done
+  constructor
+  . intro h
+    by_cases hP : P
+    . right
+      intro hQ
+      apply h
+      constructor
+      . exact hP
+      . exact hQ
+    . left
+      exact hP
+  . intro h2
+    cases h2 with
+    | inl hP =>
+    intro h4
+    apply hP
+    exact h4.1
+    | inr hQ =>
+    intro h5
+    apply hQ
+    exact h5.2
