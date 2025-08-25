@@ -96,24 +96,42 @@ theorem tendsTo_const (c : ℝ) : TendsTo (fun n ↦ c) c := by
 /-- If `a(n)` tends to `t` then `a(n) + c` tends to `t + c` -/
 theorem tendsTo_add_const {a : ℕ → ℝ} {t : ℝ} (c : ℝ) (h : TendsTo a t) :
     TendsTo (fun n => a n + c) (t + c) := by
-  -- hints: make sure you know the maths proof!
-  -- use `cases` to deconstruct an `exists`
-  -- hypothesis, and `specialize` to specialize
-  -- a `forall` hypothesis to specific values.
-  -- Look up the explanations of these tactics in Part 2
-  -- of the course notes.  rw [tendsTo_def] at h ⊢
-  sorry
+  rw [tendsTo_def] at h ⊢
+  intros ε ε_pos
+  specialize h ε ε_pos
+  cases h with
+  | intro B lim_a
+  use B
+  intros n B_lt_n
+  norm_num
+  have limit_fin := lim_a n B_lt_n
+  exact limit_fin
 
 -- you're not quite ready for this one yet though.
 /-- If `a(n)` tends to `t` then `-a(n)` tends to `-t`.  -/
 example {a : ℕ → ℝ} {t : ℝ} (ha : TendsTo a t) : TendsTo (fun n => -a n) (-t) := by
-  sorry
--- Try this one. You don't know enough material to do it yet!
--- Where do you get stuck? The problem is that I didn't teach you
--- any "API" for (a.k.a. theorems about) the absolute value function |.|.
--- We need to figure out how to prove |(-x)| = |x|,
--- or |a - b| = |b - a| or something like that.
--- Leave this for now and try sheet 4, where you'll learn how to discover these things.
--- We'll come back to this example on sheet 5.
+  rw [tendsTo_def] at ha ⊢
+  intros ε ε_pos
+  specialize ha ε ε_pos
+  cases ha with
+  | intro B lim_a
+  use B
+  intros n B_lt_n
+  have lim_fin := lim_a n B_lt_n
+  -- this is where I got stuck and needed to search around for more resources
+  rw [abs_lt] at lim_fin ⊢
+  constructor
+  . cases lim_fin with
+    | intro lim_l lim_r =>
+    norm_num
+    have : a n < t + ε := by
+      simpa [add_comm] using (sub_lt_iff_lt_add.mp lim_r)
+    exact this
+  . cases lim_fin with
+    | intro lim_l lim_r =>
+    norm_num
+    have : t < a n + ε := by
+      simpa [add_comm] using (lt_sub_iff_add_lt.mp lim_l)
+    exact this
 
 end Section2sheet3
