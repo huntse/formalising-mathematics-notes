@@ -37,9 +37,10 @@ theorem tendsTo_thirtyseven_mul (a : ℕ → ℝ) (t : ℝ) (h : TendsTo a t) :
   intro n hn
   dsimp only
   specialize hB n hn
-
-
-
+  rw [abs_lt] at hB ⊢
+  cases hB with
+  | intro hBl hBr
+  apply hBl
 
 
 /-- If `a(n)` tends to `t` and `c` is a positive constant then
