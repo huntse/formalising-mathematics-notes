@@ -1,6 +1,6 @@
 # Formalising Mathematics
 
-This is the repository for Bhavik Mehta's 2025 course on formalising mathematics in the Lean theorem prover. The course runs from January to March 2025.
+This is the repository for Bhavik Mehta's 2026 course on formalising mathematics in the Lean theorem prover. The course runs from January to March 2026.
 
 Note: this course is written in Lean 4. Previous versions of this course were written in the (now end-of-life) Lean 3.
 
@@ -22,11 +22,13 @@ and select `Open Project` -> `Project: Download Project`. Type in the following 
 https://github.com/b-mehta/formalising-mathematics-notes
 ```
 
-and then select the directory where you want the project installed, type in the name of a folder (for example formalising-mathematics-2025) and then wait for a minute or two while everything downloads and compiles. Then accept the suggestion to open the course directory, and you should be up and running. Open up VS Code's file explorer (it looks like this)
+and then select the directory where you want the project installed, type in the name of a folder (for example formalising-mathematics-2026) and then wait for a minute or two while everything downloads and compiles. Then accept the suggestion to open the course directory, and you should be up and running. Open up VS Code's file explorer (it looks like this)
 
 ![File explorer](png/file_explorer.png?raw=true "File explorer")
 
-and navigate to the `FormalisingMathematics2025` directory, where you should find a whole bunch of directories containing the exercises.
+and navigate to the `FormalisingMathematics2026` directory, where you should find a whole bunch of directories containing the exercises.
+
+**Important**: if you see messages saying that it's building mathlib, with something like `[4/209] Building ...`, this isn't good! Instead, click the upside-down A again, then Project Actions, then Fetch Mathlib Build Cache.
 
 ### Local installation via command line
 
@@ -38,7 +40,7 @@ cd formalising-mathematics-notes
 lake exe cache get
 ```
 
-Now open the folder `formalising-mathematics-notes` which you just created, using VS Code's "open folder" functionality. You will find all the exercises for the course inside a subdirectory called `FormalisingMathematics2025` (don't confuse these two
+Now open the folder `formalising-mathematics-notes` which you just created, using VS Code's "open folder" functionality. You will find all the exercises for the course inside a subdirectory called `FormalisingMathematics2026` (don't confuse these two
 directories! One has hyphens, the other does not).
 ## Online play
 
