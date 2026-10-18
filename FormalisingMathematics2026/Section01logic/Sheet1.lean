@@ -186,18 +186,31 @@ example : (P → Q) → ((P → Q) → P) → Q := by
   exact h1
 
 example : ((P → Q) → R) → ((Q → R) → P) → ((R → P) → Q) → P := by
-  intros h1 h2 h3
-  apply h2
-  intro h4
-  sorry
+  intros hPQR hQRP hRPQ
+  apply hQRP
+  intro hQ
+  apply hPQR
+  intro hP
+  exact hQ
 
 example : ((Q → P) → P) → (Q → R) → (R → P) → P := by
-  sorry
+  intro  hQPP hQR hRP
+  apply hQPP
+  apply hRP ∘ hQR
 
 example : (((P → Q) → Q) → Q) → P → Q := by
-  sorry
+  intros hPQQQ hP
+  apply hPQQQ
+  intro hPQ
+  apply hPQ
+  exact hP
 
 example :
     (((P → Q → Q) → (P → Q) → Q) → R) →
       ((((P → P) → Q) → P → P → Q) → R) → (((P → P → Q) → (P → P) → Q) → R) → R := by
-  sorry
+  intros h1 h2 h3
+  apply h2
+  intros hPPQ hP _
+  apply hPPQ
+  intros _
+  exact hP

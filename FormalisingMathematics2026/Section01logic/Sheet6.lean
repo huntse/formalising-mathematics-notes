@@ -50,13 +50,21 @@ example : P ∨ Q → (P → R) → (Q → R) → R := by
 example : P ∨ Q → (P → R) → (Q → R) → R := by
   intro hPoQ
   obtain h | h := hPoQ
-  · sorry
-  · sorry
+  · intros hPR _
+    apply hPR
+    exact h
+  · intros _ hQR
+    apply hQR
+    exact h
 
 example : P ∨ Q → (P → R) → (Q → R) → R := by
   rintro (h | h)
-  · sorry
-  · sorry
+  · intros hPR _
+    apply hPR
+    exact h
+  · intros _ hQR
+    apply hQR
+    exact h
 
 -- symmetry of `or`
 example : P ∨ Q → Q ∨ P := by

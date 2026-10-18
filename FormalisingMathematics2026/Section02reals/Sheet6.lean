@@ -33,39 +33,77 @@ theorem tendsTo_thirtyseven_mul (a : ℕ → ℝ) (t : ℝ) (h : TendsTo a t) :
     TendsTo (fun n ↦ 37 * a n) (37 * t) := by
   intro ε hε
   rw [tendsTo_def] at h
-  obtain ⟨B, hB⟩ := h (ε / 37) (by simpa)
+  obtain ⟨B, hB⟩ := h (ε/37) (by simpa)
   use B
   intro n hn
-  dsimp only
   specialize hB n hn
-  rw [abs_lt] at hB ⊢
-  cases hB with
-  | intro hBl hBr
-  apply hBl
+  calc |37 * a n - 37 * t|
+    _ = |(a n - t) * 37|   := by ring_nf
+    _ = |(a n - t)| * |37| := by apply abs_mul (a n - t) 37
+    _ = |a n - t| * 37     := by ring_nf
+    _ < ε                  := by linear_combination hB * 37
+
 
 /-- If `a(n)` tends to `t` and `c` is a positive constant then
 `c * a(n)` tends to `c * t`. -/
 theorem tendsTo_pos_const_mul {a : ℕ → ℝ} {t : ℝ} (h : TendsTo a t) {c : ℝ} (hc : 0 < c) :
     TendsTo (fun n ↦ c * a n) (c * t) := by
-  sorry
+  intro ε hε
+  rw [tendsTo_def] at h
+  obtain ⟨B, hB⟩ := h (ε/c) (by exact div_pos hε hc)
+  use B
+  intro n hn
+  specialize hB n hn
+  calc |c * a n - c * t|
+    _ = |(a n - t) * c|   := by ring_nf
+    _ = |(a n - t)| * |c| := by apply abs_mul (a n - t) c
+    _ = |a n - t| * |c|   := by ring_nf
+    _ = |a n - t| * c     := by rw[abs_of_pos hc]
+    _ < ε                 := by exact (lt_div_iff₀ hc).mp hB
 
 /-- If `a(n)` tends to `t` and `c` is a negative constant then
 `c * a(n)` tends to `c * t`. -/
 theorem tendsTo_neg_const_mul {a : ℕ → ℝ} {t : ℝ} (h : TendsTo a t) {c : ℝ} (hc : c < 0) :
     TendsTo (fun n ↦ c * a n) (c * t) := by
-  sorry
+  intro ε hε
+  rw [tendsTo_def] at h
+  obtain ⟨B, hB⟩ := h (ε/|c|) (by exact div_pos hε (abs_pos_of_neg hc))
+  use B
+  intro n hn
+  specialize hB n hn
+  calc |c * a n - c * t|
+    _ = |(a n - t) * c|   := by ring_nf
+    _ = |(a n - t)| * |c| := by apply abs_mul (a n - t) c
+    _ = |a n - t| * |c|   := by ring_nf
+    _ < ε                 := by exact (lt_div_iff₀ (abs_pos_of_neg hc)).mp hB
 
 /-- If `a(n)` tends to `t` and `c` is a constant then `c * a(n)` tends
 to `c * t`. -/
 theorem tendsTo_const_mul {a : ℕ → ℝ} {t : ℝ} (c : ℝ) (h : TendsTo a t) :
     TendsTo (fun n ↦ c * a n) (c * t) := by
-  sorry
+  rcases lt_trichotomy c 0 with h_cneg | h_czero | h_cpos
+  . exact tendsTo_neg_const_mul h h_cneg
+  . -- c = 0 so c*t=0
+    have : c * t = 0 := by exact mul_eq_zero_of_left h_czero t
+    rw [this]
+    intro ε hε
+    -- likewise for all functions n ↦ c a n, every term is zero
+    refine ⟨0, fun n _ ↦ ?_⟩
+    dsimp only
+    have (n : ℕ) : c * a n = 0 := mul_eq_zero_of_left h_czero (a n)
+    rw [this n]
+    simpa using hε
+  . exact tendsTo_pos_const_mul h h_cpos
 
 /-- If `a(n)` tends to `t` and `c` is a constant then `a(n) * c` tends
 to `t * c`. -/
 theorem tendsTo_mul_const {a : ℕ → ℝ} {t : ℝ} (c : ℝ) (h : TendsTo a t) :
     TendsTo (fun n ↦ a n * c) (t * c) := by
-sorry
+  have : (fun n => a n * c) = (fun n => c * a n) := by
+    funext n
+    exact mul_comm (a n) c
+  simp only[this, mul_comm t c]
+  exact tendsTo_const_mul c h
 
 -- another proof of this result
 theorem tendsTo_neg' {a : ℕ → ℝ} {t : ℝ} (ha : TendsTo a t) : TendsTo (fun n ↦ -a n) (-t) := by
@@ -75,6 +113,12 @@ theorem tendsTo_neg' {a : ℕ → ℝ} {t : ℝ} (ha : TendsTo a t) : TendsTo (f
 `a(n)` tends to `t + u`. -/
 theorem tendsTo_of_tendsTo_sub {a b : ℕ → ℝ} {t u : ℝ} (h1 : TendsTo (fun n ↦ a n - b n) t)
     (h2 : TendsTo b u) : TendsTo a (t + u) := by
+  intro ε hε
+  rw [tendsTo_def] at *
+  obtain ⟨a_0, ha⟩ := h1 ε hε
+  obtain ⟨b_0, hb⟩ := h2 ε hε
+  -- now we need to apply or specialize ha and hb such that if a_0 ≤ n and b_0 ≤ n then |a n - b n -t| < ε
+
   sorry
 
 /-- If `a(n)` tends to `t` then `a(n)-t` tends to `0`. -/
