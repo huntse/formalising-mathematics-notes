@@ -6,8 +6,7 @@ Authors: Bhavik Mehta, Kevin Buzzard
 import Mathlib.Tactic
 import Mathlib.Data.ZMod.Basic
 
-namespace Section15Sheet5
-
+namespace Section15Sheet5Solutions
 /-
 
 # Prove that 19 ∣ 2^(2⁶ᵏ⁺²) + 3 for k = 0,1,2,...
@@ -41,4 +40,4 @@ example (k : ℕ) : 19 ∣ 2 ^ 2 ^ (6 * k + 2) + 3 := by
   rw [a_k_eq_16]
   decide
 
-end Section15Sheet5
+end Section15Sheet5Solutions

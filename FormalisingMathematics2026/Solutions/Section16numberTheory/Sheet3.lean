@@ -5,7 +5,7 @@ Authors: Bhavik Mehta, Kevin Buzzard
 -/
 import Mathlib.Tactic
 
-namespace Section15Sheet3
+namespace Section15Sheet3Solutions
 /-
 
 # Prove that there exists infinitely many positive integers n such that
@@ -65,4 +65,4 @@ theorem infinite_setOf_solutions :
   rw [infinite_iff_arb_large]
   exact arb_large_soln
 
-end Section15Sheet3
+end Section15Sheet3Solutions

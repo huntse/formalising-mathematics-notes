@@ -5,7 +5,7 @@ Authors: Bhavik Mehta, Kevin Buzzard
 -/
 import Mathlib.Tactic -- imports all the Lean tactics
 
-namespace Section7sheet3
+namespace Section7sheet3Solutions
 
 /-
 
@@ -142,4 +142,4 @@ def ρ (h : N.map φ ≤ P) : G ⧸ N →* H ⧸ P :=
 example (h : N.map φ ≤ P) (x : G) : ρ h (mk' N x) = mk' P (φ x) := by
   rfl
 
-end Section7sheet3
+end Section7sheet3Solutions

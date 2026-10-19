@@ -8,8 +8,7 @@ import Mathlib.Data.ZMod.Basic
 import Mathlib.NumberTheory.Wilson
 import Mathlib.Data.Nat.Factorial.BigOperators
 
-namespace Section15Sheet8
-
+namespace Section15Sheet8Solutions
 open scoped BigOperators
 
 open Finset
@@ -49,17 +48,24 @@ theorem exists_sqrt_neg_one_of_one_mod_four
   congr 1
   rw [Nat.factorial_eq_prod_range_add_one]
   push_cast
-  conv_rhs => rw [prod_range_reflect _ (2 * n)]
-  simp only
-  have : ∀ j ∈ range (2 * n), (2 * ↑n + (2 * n - 1 - j) + 1 : ZMod (4 * n + 1)) = -(j + 1 : ZMod (4 * n + 1))
-  · intro j hj
-    rw [ZMod.eq_neg_iff_add_eq_zero]
-    push_cast
-    rw [show 2 * n + (2 * n - 1 - j) + 1 + (j + 1) = 4 * n + 1 by
-      simp at hj; omega]
+  conv_rhs => rw [← prod_range_reflect _ (2 * n)]
+  have : ∀ j ∈ range (2 * n),
+      (2 * (n : ZMod (4 * n + 1)) + ((2 * n - 1 - j : ℕ) : ZMod (4 * n + 1)) + 1) =
+        -(j + 1 : ZMod (4 * n + 1)) := by
+    intro j hj
+    rw [eq_neg_iff_add_eq_zero]
+    have hj' : j + 1 ≤ 2 * n := by simpa using hj
+    have hcast : ((2 * n - 1 - j : ℕ) : ZMod (4 * n + 1)) =
+        2 * (n : ZMod (4 * n + 1)) - 1 - j := by
+      rw [Nat.cast_sub (by omega), Nat.cast_sub (by omega)]
+      push_cast
+      ring
+    rw [hcast]
+    rw [show 2 * (n : ZMod (4 * n + 1)) + (2 * n - 1 - j) + 1 + (j + 1) =
+        ((4 * n + 1 : ℕ) : ZMod (4 * n + 1)) by push_cast; ring]
     rw [ZMod.natCast_self]
-  rw [prod_congr rfl this, prod_neg, show (-1 : ZMod (4 * n + 1)) ^ (2 * n) = 1 by
+  rw [prod_congr rfl this, prod_neg, Finset.card_range, show (-1 : ZMod (4 * n + 1)) ^ (2 * n) = 1 by
     rw [pow_mul, show (-1 : ZMod (4 * n + 1)) ^ 2 = 1 by ring, one_pow]]
   simp
 
-end Section15Sheet8
+end Section15Sheet8Solutions

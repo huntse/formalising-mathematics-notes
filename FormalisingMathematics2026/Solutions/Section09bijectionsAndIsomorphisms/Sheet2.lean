@@ -5,7 +5,7 @@ Authors: Bhavik Mehta, Kevin Buzzard
 -/
 import Mathlib.Tactic
 
-namespace Section9Sheet2
+namespace Section9Sheet2Solutions
 /-
 
 # Explicit bijections

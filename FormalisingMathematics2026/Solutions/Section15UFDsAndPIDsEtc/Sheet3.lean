@@ -103,8 +103,7 @@ all height one primes are principal.
 
 -/
 
-namespace Section14Sheet3
-
+namespace Section14Sheet3Solutions
 -- out of laziness we don't define height n primes in a general
 -- commutative ring but just height one primes in an integral
 -- domain
@@ -148,4 +147,4 @@ example (R : Type) [CommRing R] [IsDomain R] [UniqueFactorizationMonoid R]
     rw [← Ideal.span_singleton_eq_bot]
     exact hQ0
 
-end Section14Sheet3
+end Section14Sheet3Solutions

@@ -31,6 +31,7 @@ which is `26*26n+26*26 = 13*13*something`
 -- The statement has subtraction in, so we use integers.
 example (n : ℕ) (hn : 0 < n) : -- remark; not going to use hn
     (169 : ℤ) ∣ 3 ^ (3 * n + 3) - 26 * n - 27 := by
+  clear hn -- unused, and otherwise `induction` generalizes it into the motive
   induction n with
   | zero =>
     simp

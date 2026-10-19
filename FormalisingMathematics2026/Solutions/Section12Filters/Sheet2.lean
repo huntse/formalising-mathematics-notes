@@ -33,7 +33,9 @@ Some helpful lemmas (all in the `Filter` namespace):
 
 -/
 
-namespace Filter
+namespace FilterSolutions
+
+open Filter
 
 variable {α : Type}
 
@@ -152,4 +154,4 @@ example (I : Type) (F : I → Filter α) (G : Filter α) (hG : ∀ i, G ≤ F i)
   rw [Filter.le_def] at hG
   exact hG y hy
 
-end Filter
+end FilterSolutions

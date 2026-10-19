@@ -51,8 +51,9 @@ open Filter
 open scoped NNReal ENNReal MeasureTheory BigOperators Topology
 
 -- note to self: removed `probability_theory`
-namespace MeasureTheory
+namespace MeasureTheorySolutions
 
+open MeasureTheory
 -- Let Ω be a set equipped with a sigma algebra.
 variable {Ω : Type} [MeasurableSpace Ω]
 
@@ -64,11 +65,10 @@ Try proving the following:
 -/
 example (S T : Set Ω) (hS : μ S ≠ ∞) (hT : MeasurableSet T) :
     μ (S ∪ T) = μ S + μ T - μ (S ∩ T) := by
-  exact measure_union_add_inter S T ▸ (ENNReal.add_sub_cancel_right (measure_ne_top μ (S ∩ T)) (μ (S ∪ T))).symm
-  -- Wait, easier:
-  rw [measure_union_add_inter S T]
-  rw [ENNReal.add_sub_cancel_right]
-  exact measure_ne_top μ (S ∩ T)
+  have h := measure_union_add_inter (μ := μ) S hT
+  rw [← h]
+  exact (ENNReal.add_sub_cancel_right
+    (ne_top_of_le_ne_top hS (measure_mono Set.inter_subset_left))).symm
 
 /-!
 ## Measurable functions
@@ -149,19 +149,22 @@ example {f g : Ω → X} (hf : Integrable f μ) (hg : Integrable g μ) :
   integral_add hf hg
 
 example (a : X) (s : Set Ω) : ∫ _ in s, a ∂μ = (μ s).toReal • a :=
-  set_integral_const s a
+  setIntegral_const a
 
 -- Harder
 example
     {f : Ω → ℝ} (hf : Measurable f)
     (hint : Integrable f μ) (hμ : 0 < μ {ω | 0 < f ω}) :
     (0 : ℝ) < ∫ ω in {ω | 0 < f ω}, f ω ∂μ := by
-  apply set_integral_pos_of_pos_of_measure_pos
-  · exact hint.set_integrable
-  · intro x hx
-    simp at hx
-    exact hx
-  · exact hμ
+  have hs : MeasurableSet {ω | 0 < f ω} := measurableSet_lt measurable_const hf
+  rw [setIntegral_pos_iff_support_of_nonneg_ae
+    (ae_restrict_of_forall_mem hs fun ω hω => le_of_lt hω) hint.integrableOn]
+  have hsupp : Function.support f ∩ {ω | 0 < f ω} = {ω | 0 < f ω} := by
+    ext ω
+    simp only [Function.mem_support, Set.mem_inter_iff, Set.mem_setOf_eq, and_iff_right_iff_imp]
+    exact fun hω => ne_of_gt hω
+  rw [hsupp]
+  exact hμ
 
 /-!
 ## ae filter
@@ -196,7 +199,7 @@ for this is, while `∫ x in [0, ∞), sin x / x dx` is Darboux-Riemann integrab
 `∫ x in [0, ∞), |sin x / x| dx = ∞`.
 -/
 example (X : Type) [MeasurableSpace X] (μ : Measure X) : Filter X :=
-  μ.ae
+  MeasureTheory.ae μ
 
 -- say `f` and `g` are measurable functions `Ω → X`
 variable (f g : Ω → X)
@@ -239,12 +242,20 @@ example (f : ℕ → Ω → ℝ) (s : Set Ω) :=
 -- goals of the form `MeasurableSet s` and `Measurable f`
 example (s : Set Ω) (f g : Ω → ℝ) (hf : Measurable f) (hg : Measurable g)
     (hfg : ∀ ω ∈ s, f ω = g ω) : f =ᵐ[μ.restrict s] g := by
-  apply ae_restrict_of_forall
-  exact hfg
+  change {ω | f ω = g ω} ∈ MeasureTheory.ae (μ.restrict s)
+  rw [MeasureTheory.mem_ae_iff,
+    MeasureTheory.Measure.restrict_apply_eq_zero (measurableSet_eq_fun hf hg).compl]
+  have : {ω | f ω = g ω}ᶜ ∩ s = ∅ := by
+    ext ω
+    simp only [Set.mem_compl_iff, Set.mem_setOf_eq, Set.mem_inter_iff, Set.mem_empty_iff_false,
+      iff_false, not_and]
+    exact fun hω hsω => hω (hfg ω hsω)
+  rw [this, measure_empty]
 
 example (f g h : Ω → ℝ)
     (h₁ : f ≤ᵐ[μ] g) (h₂ : f ≤ᵐ[μ] h) : 2 * f ≤ᵐ[μ] g + h := by
   filter_upwards [h₁, h₂] with ω hω₁ hω₂
+  show 2 * f ω ≤ g ω + h ω
   linarith
 
 example (f g : Ω → ℝ) (h : f =ᵐ[μ] g) (hg : ∀ᵐ ω ∂μ, 2 * g ω + 1 ≤ 0) :
@@ -291,6 +302,5 @@ a set of full measure. Thus, it suffices to work in their intersection instead.
 
 Now, try the above examples again using the `filter_upwards` tactic.
 -/
-end MeasureTheory
-
+end MeasureTheorySolutions
 end Section13Sheet3

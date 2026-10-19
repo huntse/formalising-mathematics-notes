@@ -5,7 +5,7 @@ Authors: Bhavik Mehta, Kevin Buzzard
 -/
 import Mathlib.Tactic -- imports all the Lean tactics
 
-namespace Secion7Sheet2
+namespace Secion7Sheet2Solutions
 /-
 
 # Group homomorphisms

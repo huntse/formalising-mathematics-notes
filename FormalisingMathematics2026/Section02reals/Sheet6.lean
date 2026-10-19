@@ -135,7 +135,7 @@ theorem tendsTo_zero_mul_tendsTo_zero {a b : ℕ → ℝ} (ha : TendsTo a 0) (hb
 `a(n)*b(n)` tends to `t*u`. -/
 theorem tendsTo_mul (a b : ℕ → ℝ) (t u : ℝ) (ha : TendsTo a t) (hb : TendsTo b u) :
     TendsTo (fun n ↦ a n * b n) (t * u) := by
-sorry
+  sorry
 
 -- something we never used!
 /-- A sequence has at most one limit. -/

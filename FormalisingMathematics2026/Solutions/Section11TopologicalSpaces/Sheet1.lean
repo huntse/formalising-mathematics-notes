@@ -5,8 +5,7 @@ Authors: Bhavik Mehta, Jujian Zhang, Kevin Buzzard
 -/
 import Mathlib.Tactic
 
-namespace Section10sheet1
-
+namespace Section10sheet1Solutions
 noncomputable section
 
 /-!

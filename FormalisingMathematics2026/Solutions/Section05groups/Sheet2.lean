@@ -19,7 +19,7 @@ proving the other axioms?
 
 -/
 
-namespace Section5sheet2
+namespace Section5sheet2Solutions
 
 
 -- removing `mul_one` and `mul_inv_self` from the five standard axioms
@@ -116,4 +116,4 @@ instance : BadGroup Bool where
 example : ¬∀ a : Bool, 1 * a = a := by
   decide
 
-end Section5sheet2
+end Section5sheet2Solutions

@@ -27,7 +27,9 @@ Recall that `max x y` is the max of x and y in a `LinearOrder`, and
 `le_max_left a b : a ≤ max a b` and similarly `le_max_right`.
 -/
 
-namespace Filter
+namespace FilterSolutions
+
+open Filter
 
 open Set
 
@@ -125,4 +127,4 @@ If you like this filter stuff, then formalise in Lean and prove the following:
 
 -/
 
-end Filter
+end FilterSolutions

@@ -5,8 +5,7 @@ Authors: Bhavik Mehta, Kevin Buzzard
 -/
 import Mathlib.Tactic
 
-namespace Section7sheet1
-
+namespace Section7sheet1Solutions
 /-!
 
 # Review of subgroups
@@ -222,8 +221,6 @@ theorem conjugate_eq_of_abelian (habelian : ∀ a b : G, a * b = b * a) : conjug
     · exact ha
     · rw [habelian x a, mul_assoc, mul_inv_cancel, mul_one]
 
-end Section7sheet1
-
 section
 
 variable (G H : Type) [Group G] [Group H]
@@ -237,3 +234,5 @@ lemma map_mul' {φ : WeakGroupHom G H} (x y : G) :
   rw [φ.map_mul]
 
 end
+
+end Section7sheet1Solutions

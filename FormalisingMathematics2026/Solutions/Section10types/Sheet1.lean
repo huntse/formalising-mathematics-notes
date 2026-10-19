@@ -1,5 +1,7 @@
 import Mathlib.Tactic
 
+namespace Section10sheet1Solutions
+
 /-!
 Today we'll talk a little about the type theory of Lean. We'll talk about the three ways of making
 types in Lean: pi types, inductive types and quotient types.
@@ -200,3 +202,5 @@ theorem test2 : Nonempty' ℕ := ⟨7⟩
 
 -- If there's still time, get the list of sections from last year and discuss which ones to talk
 -- about.
+
+end Section10sheet1Solutions

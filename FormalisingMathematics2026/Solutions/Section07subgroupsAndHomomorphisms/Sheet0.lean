@@ -5,6 +5,8 @@ Authors: Bhavik Mehta, Yaël Dillies
 -/
 import Mathlib
 
+namespace Section7sheet0Solutions
+
 /-!
 
 # Some common error messages
@@ -161,3 +163,5 @@ example : Real.log (-2) = Real.log 2 := by
 
 #eval 2 - 3
 #eval 2 - 4
+
+end Section7sheet0Solutions

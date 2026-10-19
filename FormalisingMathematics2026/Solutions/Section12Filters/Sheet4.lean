@@ -26,7 +26,9 @@ a `Filter β`: a set `s : Set β` will be in our filter if its preimage under `m
 is `m ⁻¹' s : Set α`) is in `f`. Let's make this and check it's a filter.
 -/
 
-namespace Filter
+namespace FilterSolutions
+
+open Filter
 
 variable {α β : Type*}
 
@@ -142,7 +144,7 @@ example {f g : ℕ → ℝ} {a b : ℝ} (hf : Tendsto f atTop (nhds a)) (hg : Te
     Tendsto (fun n ↦ f n + g n) atTop (nhds (a + b)) :=
   hf.add hg
 
-end Filter
+end FilterSolutions
 
 -- For more about Filters and Topology, see
 -- https://leanprover-community.github.io/mathematics_in_lean/C10_Topology.html

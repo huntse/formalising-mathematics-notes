@@ -7,8 +7,7 @@ import Mathlib.Tactic
 import Mathlib.NumberTheory.Divisors
 
 -- added to make Bhavik's proof work
-namespace Section15sheet2
-
+namespace Section15sheet2Solutions
 /-
 
 # Find all integers x ≠ 3 such that x - 3 divides x³ - 3
@@ -51,4 +50,4 @@ example (x : ℤ) :
   · simp +contextual [or_imp]
 
 
-end Section15sheet2
+end Section15sheet2Solutions

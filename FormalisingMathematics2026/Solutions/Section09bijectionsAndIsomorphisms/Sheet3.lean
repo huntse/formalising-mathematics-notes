@@ -5,8 +5,7 @@ Authors: Bhavik Mehta, Kevin Buzzard
 -/
 import Mathlib.Tactic -- imports all the Lean tactics
 
-namespace Section9sheet3
-
+namespace Section9sheet3Solutions
 /-
 
 Note that `X ≃ Y` is not an equivalence relation, for the stupid

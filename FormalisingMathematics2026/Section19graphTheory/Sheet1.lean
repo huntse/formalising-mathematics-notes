@@ -93,12 +93,12 @@ inductive SQE : SQV → SQV → Prop
 -- Now let's make the graph
 def SQG : SimpleGraph SQV where
   Adj := SQE
-  symm := by
+  symm := ⟨by
     -- do all the cases for the two vertices and the edge
     rintro (_ | _ | _ | _) (_ | _ | _ | _) (_ | _ | _ | _ | _ | _ | _ | _)
     -- now 8 goals; find the right constructor for sqE in all cases
-    repeat' constructor
-  loopless := by rintro (_ | _ | _ | _) (_ | _ | _ | _ | _ | _ | _ | _)
+    repeat' constructor⟩
+  loopless := ⟨by rintro (_ | _ | _ | _) (_ | _ | _ | _ | _ | _ | _ | _)⟩
 
 end SquareGraph
 

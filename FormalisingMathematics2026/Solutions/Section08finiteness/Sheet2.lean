@@ -74,7 +74,7 @@ example (S T : Finset X) (h : S ≤ T) : S.image f ≤ T.image f :=
 #synth Inter (Finset ℕ)           -- allows me to use ∩ on Finsets
 #synth Insert ℕ (Finset ℕ)        -- allows me to use insert
 #synth EmptyCollection (Finset ℕ) -- allows me to use ∅
-#synth HasSubset (Finset ℕ)       -- ⊆
+#synth LE (Finset ℕ)             -- ⊆ is now the order on finsets
 #synth SDiff (Finset ℕ)           -- \
 #synth Singleton ℕ (Finset ℕ)     -- {x}
 

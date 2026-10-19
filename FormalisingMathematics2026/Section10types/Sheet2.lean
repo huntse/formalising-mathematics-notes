@@ -33,8 +33,9 @@ example {P : Prop} : P → P := by
   exfalso
   sorry
 
-example {a b c : ℝ} (ha : a ≤ b) (hb : a ≤ c) : a ≤ b := by
-  grw [hb]
+example {a b c : ℝ} (ha : a ≤ b) (hb : b ≤ c) : a ≤ c := by
+  grw [ha]
+  exact hb
 
 example {n : ℕ} (h : ((n + 1 : ℕ) : ℚ) ≠ n + 1) : False := by
   norm_cast at h
